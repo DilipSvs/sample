@@ -9,10 +9,3 @@
 ##subsequentPi##
   - *count* all subsequences of '123' that occur within the first 100,000 digits of pi. 
   - Technology Used - plain javascript prototype
-
-##ToBe Done##
-* Add Gulp Task for the following
-* lint
-* UnitTest(mocha/ Jasmine)
-* Code Coverage(Istanbul)
-* Code cyclometric(JsCoverage)
