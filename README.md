@@ -1,6 +1,6 @@
 ##ToDoList##
   -
-  - Technology Used - angularJs, Localstorage
+  - 
   
 ##subsequentIntervent##
   - A 'subsequence' is any occurrence of a certain pattern of characters within a longer string. An unlimited number of other characters may intervene between the characters of the subsequence
