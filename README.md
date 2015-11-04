@@ -12,6 +12,7 @@
 
 ##ToBe Done##
 * Add Gulp Task for the following
+* lint
 * UnitTest(mocha/ Jasmine)
 * Code Coverage(Istanbul)
 * Code cyclometric(JsCoverage)
