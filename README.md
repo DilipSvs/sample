@@ -1,6 +1,7 @@
 ##ToDoList##
   - create todo list
   - delete todo list
+  - mark list as completed
   - local storage used for persistance
   
 ##subsequentIntervent##
@@ -10,4 +11,3 @@
 ##subsequentPi##
   - *count* all subsequences of '123' that occur within the first 100,000 digits of pi. 
   - Technology Used - plain javascript prototype
-
