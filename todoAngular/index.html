@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" ng-app="todoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>AngularJS • TodoMVC</title>
+    <link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" />
+    <style>
+      .completed-true {text-decoration: line-through; opacity: .3;}
+      i.glyphicon-remove {cursor: pointer;}
+      .list li{list-style: none;}
+      .lg{width: 120px;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="jumbotron text-center">
+        <h2>ToDo list using AngularJs</h2>
+      </div>
+      <div class="col-md-4"> </div>
+      <div class="col-md-8">
+        <div ng-controller="TodoCtrl" class="col-xs-5">
+          <h3>Total todos: {{ getTotalTodos() }}</h3>
+          <ul class="list">
+            <li ng-repeat="todo in todos track by $index">
+              <input type="checkbox" ng-model="todo.done"> <span class="completed-{{todo.done}}">{{todo.task}}</span> <i class="glyphicon glyphicon-remove pull-right" ng-click="removeTodoItem($index)"></i>
+            </li>
+          </ul>
+          <form class="form-horizontal">
+            <input ng-model="newTaskTodo" class="lg" />
+            <button class="btn btn-primary " ng-click="addTodo()"><i class="glyphicon glyphicon-plus"></i> Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--library-->
+    <script src="libraries/jquery/js/jquery-2.1.1.js"></script>
+    <script src="libraries/angular/js/angular.js"></script>
+    <script src="libraries/angular/js/ui-bootstrap-tpls-0.11.0.js"></script>
+    <script src="libraries/bootstrap/js/bootstrap.js"></script>
+    <script>
+      'use strict';
+      /*!
+      * Todo-List Example Application
+      * Create and delete the TodoList items
+      * @author Dilip
+      */
+      var App = angular.module('todoApp', [])
+      App.controller('TodoCtrl', function($scope) {
+        var lsKey = 'element'
+        $scope.todos = JSON.parse(localStorage.getItem(lsKey)) || [];
+        
+        /**
+        * watches the changes in the todos array
+        * @param {Number} NewTodo item which contains new value
+        * @param {Number} oldTodo item which contains previous value
+        */
+        $scope.$watch("todos",function (newTodo,oldTodo) {
+          if (newTodo !== null && angular.isDefined(newTodo) && newTodo!==oldTodo) {
+            localStorage.setItem(lsKey, JSON.stringify(newTodo));
+          }
+        },true);
+        
+        /**
+         * get total number of todo item in todos array
+         * @returns {Number} 0 or length of array
+         */
+        $scope.getTotalTodos = function(){
+          if ($scope.todos == null) return 0;
+          return $scope.todos.length;
+        };
+        
+        /**
+         * remove a selected item 
+         * @param {Number} item selected item in todos array
+         */
+        $scope.removeTodoItem = function(item){
+          $scope.todos.splice(item, 1);
+        }
+        
+        /**
+         * add the entered text into todos array
+         */
+        $scope.addTodo = function(){
+          if(typeof $scope.newTaskTodo != 'undefined' && $scope.newTaskTodo != ''){
+            $scope.todos.push({task:$scope.newTaskTodo.trim(), done: false});
+            localStorage.setItem(lsKey, JSON.stringify($scope.todos));
+            $scope.newTaskTodo = '';
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
