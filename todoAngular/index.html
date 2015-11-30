@@ -1,93 +1,112 @@
 <!doctype html>
-<html lang="en" ng-app="todoApp">
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>AngularJS • TodoMVC</title>
+    <title>AngularJS • Todo List</title>
     <link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" />
     <style>
-      .completed-true {text-decoration: line-through; opacity: .3;}
+      body { padding-top:50px; }
       i.glyphicon-remove {cursor: pointer;}
-      .list li{list-style: none;}
-      .lg{width: 120px;}
     </style>
   </head>
   <body>
-    <div>
-      <div class="jumbotron text-center">
-        <h2>ToDo list using AngularJs</h2>
-      </div>
-      <div class="col-md-4"> </div>
-      <div class="col-md-8">
-        <div ng-controller="TodoCtrl" class="col-xs-5">
-          <h3>Total todos: {{ getTotalTodos() }}</h3>
-          <ul class="list">
-            <li ng-repeat="todo in todos track by $index">
-              <input type="checkbox" ng-model="todo.done"> <span class="completed-{{todo.done}}">{{todo.task}}</span> <i class="glyphicon glyphicon-remove pull-right" ng-click="removeTodoItem($index)"></i>
-            </li>
-          </ul>
-          <form class="form-horizontal">
-            <input ng-model="newTaskTodo" class="lg" />
-            <button class="btn btn-primary " ng-click="addTodo()"><i class="glyphicon glyphicon-plus"></i> Add</button>
-          </form>
+    <div class="container" ng-app="TodoApp" ng-controller="mainController">
+    <h2>ToDoList</h2>
+      <h3>Total todos: {{ getTotalTodos() }}</h3>
+    <form>
+      <div class="row-fluid">
+        <div class="form-group col-md-6">
+          <label class="control-label">Add a TodoList</label>
+          <div class="input-group">
+            <input type="text" ng-model="newTaskTodo" placeholder="todo list" class="form-control">
+            <!--input type="text" ng-model="newTaskDate" placeholder="mm/dd/yyyy" class="form-control"-->
+            <div ng-controller="dateCtrl">
+              <!--pre>Selected date is: <em>{{newTaskDate | date:'fullDate' }}</em></pre-->
+              <div class="row">
+                <div class="col-md-12">
+                    <p class="input-group">
+                      <input type="text" datepicker-popup="dd/MM/yyyy" ng-model="parent.newTaskDate" class="form-control" is-open="opened" />
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openCalender($event)">
+                          <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                      </span>
+                    </p>
+                </div>
+              </div>
+            </div>
+            
+            <select class="form-control" ng-model="newTaskType">
+              <option value="normal">Normal</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+
+            <button class="btn btn-primary form-control" ng-click="addTodo()"><i class="glyphicon glyphicon-plus"></i> Add</button>
+          </div>
         </div>
       </div>
+  </form>
+      
+  <form>
+    <div class="form-group">
+      <label class="control-label">Search TodoList</label>
+      <div class="input-group">
+        <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+        <input type="text" class="form-control" placeholder="Search using task or date" ng-model="searchTodo">
+      </div>      
     </div>
-    <!--library-->
-    <script src="libraries/jquery/js/jquery-2.1.1.js"></script>
-    <script src="libraries/angular/js/angular.js"></script>
-    <script src="libraries/angular/js/ui-bootstrap-tpls-0.11.0.js"></script>
-    <script src="libraries/bootstrap/js/bootstrap.js"></script>
-    <script>
-      'use strict';
-      /*!
-      * Todo-List Example Application
-      * Create and delete the TodoList items
-      * @author Dilip
-      */
-      var App = angular.module('todoApp', [])
-      App.controller('TodoCtrl', function($scope) {
-        var lsKey = 'element'
-        $scope.todos = JSON.parse(localStorage.getItem(lsKey)) || [];
-        
-        /**
-        * watches the changes in the todos array
-        * @param {Number} NewTodo item which contains new value
-        * @param {Number} oldTodo item which contains previous value
-        */
-        $scope.$watch("todos",function (newTodo,oldTodo) {
-          if (newTodo !== null && angular.isDefined(newTodo) && newTodo!==oldTodo) {
-            localStorage.setItem(lsKey, JSON.stringify(newTodo));
-          }
-        },true);
-        
-        /**
-         * get total number of todo item in todos array
-         * @returns {Number} 0 or length of array
-         */
-        $scope.getTotalTodos = function(){
-          if ($scope.todos == null) return 0;
-          return $scope.todos.length;
-        };
-        
-        /**
-         * remove a selected item 
-         * @param {Number} item selected item in todos array
-         */
-        $scope.removeTodoItem = function(item){
-          $scope.todos.splice(item, 1);
-        }
-        
-        /**
-         * add the entered text into todos array
-         */
-        $scope.addTodo = function(){
-          if(typeof $scope.newTaskTodo != 'undefined' && $scope.newTaskTodo != ''){
-            $scope.todos.push({task:$scope.newTaskTodo.trim(), done: false});
-            localStorage.setItem(lsKey, JSON.stringify($scope.todos));
-            $scope.newTaskTodo = '';
-          }
-        };
-      });
-    </script>
-  </body>
+  </form>
+  
+  <table class="table table-bordered table-striped" >
+    
+    <thead>
+      <tr>
+        <td class="border col-md-6">
+          <a href="#" ng-click="sortType = 'task'; sortReverse = !sortReverse">Todo item
+            <span ng-show="sortType == 'task' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+            <span ng-show="sortType == 'task' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+          </a>
+        </td>
+        <td class="border col-md-3">
+          <a href="#" ng-click="sortType = 'type'; sortReverse = !sortReverse">Type
+            <span ng-show="sortType == 'type' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+            <span ng-show="sortType == 'type' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+          </a>
+        </td>
+        <td class="border col-md-3">
+          <a href="#" ng-click="sortType = 'date'; sortReverse = !sortReverse">Date
+            <span ng-show="sortType == 'date' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+            <span ng-show="sortType == 'date' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+          </a>
+        </td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="roll in todos track by $index | orderBy:sortType:sortReverse | filter:searchTodo">
+        <td>{{ roll.task }}</td>
+        <td>{{ roll.type }}</td>
+        <td ng-bind="roll.date | date:'dd/MM/yyyy'">{{ roll.date }}</td>
+        <td class="col-md-2"><i class="glyphicon glyphicon-remove pull-right" ng-click="removeTodoItem($index)"></i></td>
+      </tr>
+    </tbody>
+    
+  </table>
+  </div>
+    
+  <!--library-->
+  <script src="libraries/jquery/js/jquery-2.1.1.js"></script>
+  <script src="libraries/angular/js/angular.js"></script>
+  <script src="libraries/angular/js/ui-bootstrap-tpls-0.11.0.js"></script>
+  <script src="libraries/bootstrap/js/bootstrap.js"></script>
+
+  <!--main app-->
+  <script src="./appTodo.js"></script>
+  <!--service-->
+  <script src="services/localstorage.service.js"></script>
+  <!--controller-->
+  <script src="controllers/calender.controller.js"></script>
+  <script src="controllers/main.controller.js"></script>
+</body>
 </html>
