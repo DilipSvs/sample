@@ -67,24 +67,3 @@ describe('Controller: MainCtrl', function () {
   })
   
 });
-
-/*todos = [
-      { name: 'Cali Roll', fish: 'Crab', tastiness: 2, date:new Date('3/13/2009') },
-      { name: 'Philly', fish: 'Tuna', tastiness: 4, date:new Date('1/3/2002') },
-      { name: 'Tiger', fish: 'Eel', tastiness: 7, date:new Date('6/17/1989') },
-      { name: 'Rainbow', fish: 'Variety', tastiness: 6, date:new Date('10/27/2013') }
-    ];
-describe("TodoApp", function() {
-  var scope;
-  
-  beforeEach(inject(function($controller, $rootScope) {
-    scope = $rootScope.$new();
-    $controller('mainController', {$scope: scope});
-  }));
-  
-  it('sdfdsf', function(){
-    spyOn(scope, 'TodoApp').andCallThrough();
-    scope.addNewTodo('sampler');
-    expect(scope.addNewTodo).toHaveBeenCalled();
-  })
-});*/
