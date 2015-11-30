@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('TodoApp')
+angular.module('TodoApp',[])
 
 .factory('lsFactory', function() {
   var LS_ID = 'todos-ls-element';

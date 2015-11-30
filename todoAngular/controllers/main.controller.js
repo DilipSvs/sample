@@ -39,7 +39,7 @@ angular.module('TodoApp')
         //var c = $scope.newTaskDate.trim().split("/");
         //var dateSort = new Date(c[1]+"/"+c[0]+"/"+c[2]);
         $scope.todos.push({task:$scope.newTaskTodo.trim(), date:d, type:$scope.newTaskType});
-        console.log($scope.todos)
+        //console.log($scope.todos)
         //lsFactory.put($scope.todos);
         resetInput();
       }

@@ -17,9 +17,9 @@ describe('Controller: MainCtrl', function () {
 
     //mock localStorageService get/add
     spyOn(lsFactory,'get').and.callFake(function(){
-      //return [{ 'name': 'Cali Roll', 'fish': 'Crab', 'tastiness': 2, 'date':new Date('3/13/2009') }]
       return todos;
     });
+    
     spyOn(lsFactory,'put').and.callFake(function(todo){
       todos.push(todo) ;
     });
@@ -35,9 +35,8 @@ describe('Controller: MainCtrl', function () {
     todos = [];
   });
 
-  it('should retrieve "todos" from the store and assign to scope', function () {
+  it('expect factory is called', function () {
     expect(lsFactory.get).toHaveBeenCalled();
-    //expect(scope.todos.length).toBe(4);
   });
   
   it('add todos', function() {
