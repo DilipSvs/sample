@@ -1,7 +1,7 @@
 ##ToDoList##
   - create todo list
   - delete todo list
-  - mark list as completed
+  - seperation of controller, service layer
   - local storage used for persistance
   
 ##subsequentIntervent##
